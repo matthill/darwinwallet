@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="language_codes">
+        <item >us</item>
+        <item >uk</item>
+        <item >eu</item>
+        <item >ca</item>
+        <item >au</item>
+    </string-array>
+    
+    <string-array name="language_names">
+        <item >US Dollars</item>
+        <item >British Pound Sterling</item>
+        <item >eu</item>
+        <item >ca</item>
+        <item >au</item>
+    </string-array>
+    
+</resources>

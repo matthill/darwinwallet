@@ -1,0 +1,11 @@
+bin/
+obj/
+gen/
+libs/
+*.a
+*.o
+*.so
+*~
+*.ref
+jni/NativeVision/currency
+jni/NativeVision/build

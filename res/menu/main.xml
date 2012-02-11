@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+
+    <item android:id="@+id/settings" android:title="Settings" android:icon="@drawable/mnu_settings"></item>
+    <item android:id="@+id/light" android:title="Toggle Light" android:icon="@drawable/mnu_light"></item>
+    <item android:id="@+id/tipstricks" android:title="Tips and Tricks" android:icon="@drawable/mnu_tipstricks"></item>
+
+</menu>
