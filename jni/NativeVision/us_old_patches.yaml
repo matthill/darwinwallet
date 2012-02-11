@@ -1,0 +1,458 @@
+width: 3328
+height: 1403
+scale_factor: 10%
+
+detection_points_per_image: 50
+
+bills:
+
+   1b:
+     - patch: top_left
+       left: 111
+       top: 75
+       width: 408
+       height: 408
+
+     - patch: bottom_left
+       left: 111
+       top: 936
+       width: 408
+       height: 408
+
+     - patch: bottom_right
+       left: 2864
+       top: 936
+       width: 408
+       height: 408
+
+     - patch: top_right
+       left: 2856
+       top: 79
+       width: 408
+       height: 408
+
+     - patch: top_text
+       left: 532
+       top: 79
+       width: 2356
+       height: 224
+
+     - patch: bottom_text
+       left: 712
+       top: 1080
+       width: 1988
+       height: 252
+
+     - patch: left_emblem
+       left: 492
+       top: 384
+       width: 536
+       height: 612
+       
+     - patch: right_emblem
+       left: 2352
+       top: 384
+       width: 536
+       height: 612
+       
+     - patch: in_god_we_trust
+       left: 1300
+       top: 360
+       width: 764
+       height: 172
+ 
+   1f:
+     - patch: top_left
+       left: 64
+       top: 88
+       width: 448
+       height: 512
+
+     - patch: bottom_left
+       left: 40
+       top: 946
+       width: 408
+       height: 408
+
+     - patch: bottom_right
+       left: 2848
+       top: 946
+       width: 408
+       height: 408
+
+
+     - patch: top_right
+       left: 2804
+       top: 104
+       width: 448
+       height: 512
+
+     - patch: bottom_text
+       left: 972
+       top: 1148
+       width: 516
+       height: 192
+
+     - patch: top_text
+       left: 544
+       top: 164
+       width: 2204
+       height: 156
+
+     - patch: right_emblem
+       left: 2148
+       top: 508
+       width: 592
+       height: 484
+
+   5f:
+     - patch: top_left
+       left: 68
+       top: 16
+       width: 392
+       height: 280
+
+     - patch: bottom_left
+       left: 72
+       top: 960
+       width: 1616
+       height: 416
+
+     - patch: face
+       left: 1104
+       top: 164
+       width: 652
+       height: 844
+
+     - patch: bottom_right
+       left: 2864
+       top: 964
+       width: 412
+       height: 388
+
+     - patch: top_right
+       left: 2928
+       top: 28
+       width: 324
+       height: 228
+
+   5b:
+     - patch: top
+       left: 654
+       top: 66
+       width: 2052
+       height: 220
+
+     - patch: top_left
+       left: 72
+       top: 77
+       width: 379
+       height: 413
+
+     - patch: bottom_left
+       left: 50
+       top: 776
+       width: 462
+       height: 538
+
+     - patch: bottom_right
+       left: 2684
+       top: 604
+       width: 605
+       height: 788
+
+     - patch: top_right
+       left: 2876
+       top: 44
+       width: 408
+       height: 473
+
+     - patch: center_image
+       left: 808
+       top: 236
+       width: 1623
+       height: 908
+
+     - patch: five_bottom_letters
+       left: 869
+       top: 1122
+       width: 555
+       height: 165
+
+   10f:
+     - patch: top_left
+       left: 84
+       top: 24
+       width: 480
+       height: 256
+
+     - patch: bottom_left
+       left: 60
+       top: 976
+       width: 488
+       height: 412
+
+     - patch: ten_text
+       left: 616
+       top: 1108
+       width: 552
+       height: 268
+
+     - patch: face
+       left: 1032
+       top: 184
+       width: 672
+       height: 1184
+
+     - patch: top_right
+       left: 2848
+       top: 20
+       width: 420
+       height: 228
+
+   10b:
+     - patch: top
+       left: 476
+       top: 64
+       width: 2316
+       height: 356
+
+     - patch: center
+       left: 532
+       top: 344
+       width: 2212
+       height: 776
+
+     - patch: top_left
+       left: 104
+       top: 80
+       width: 356
+       height: 276
+
+     - patch: bottom_left
+       left: 48
+       top: 932
+       width: 456
+       height: 372
+
+     - patch: bottom_right
+       left: 2676
+       top: 872
+       width: 588
+       height: 468
+
+     - patch: top_right
+       left: 2784
+       top: 40
+       width: 484
+       height: 392
+
+     - patch: ten_letters
+       left: 644
+       top: 1052
+       width: 608
+       height: 236
+
+   20b:
+     - patch: center_image
+       left: 205
+       top: 377
+       width: 2966
+       height: 720
+
+     - patch: twenty_letters
+       left: 808
+       top: 1080
+       width: 792
+       height: 188
+
+     - patch: top_left
+       left: 104
+       top: 92
+       width: 460
+       height: 168
+
+     - patch: bottom_left
+       left: 78
+       top: 672
+       width: 663
+       height: 627
+
+     - patch: bottom_right
+       left: 2604
+       top: 825
+       width: 654
+       height: 546
+
+     - patch: top_right
+       left: 2766
+       top: 108
+       width: 459
+       height: 198
+
+   20f:
+     - patch: top_left
+       left: 44
+       top: 8
+       width: 536
+       height: 280
+
+     - patch: bottom_left
+       left: 36
+       top: 1008
+       width: 716
+       height: 384
+
+     - patch: top_right
+       left: 2872
+       top: 16
+       width: 408
+       height: 260
+
+     - patch: twenty_letters_and_scarf
+       left: 732
+       top: 1128
+       width: 1632
+       height: 244
+
+     - patch: jackson_face
+       left: 948
+       top: 196
+       width: 912
+       height: 940
+
+     - patch: twenty_hologram
+       left: 2696
+       top: 984
+       width: 592
+       height: 196
+
+   50f:
+     - patch: bottom_right
+       left: 2784
+       top: 969
+       width: 480
+       height: 378
+
+     - patch: bottom_left_and_scarf
+       left: 36
+       top: 990
+       width: 1617
+       height: 399
+
+     - patch: face
+       left: 1053
+       top: 168
+       width: 681
+       height: 825
+
+     - patch: top_left
+       left: 63
+       top: 18
+       width: 588
+       height: 228
+
+     - patch: top_right
+       left: 2664
+       top: 9
+       width: 582 
+       height: 219
+
+     - patch: right_edge
+       left: 3102
+       top: 258
+       width: 168
+       height: 744
+
+   50b:
+     - patch: top_left
+       left: 33
+       top: 88
+       width: 484
+       height: 418
+
+     - patch: bottom_left
+       left: 38
+       top: 968
+       width: 540
+       height: 385
+
+     - patch: fifty_letters
+       left: 704
+       top: 1111
+       width: 754
+       height: 209
+
+     - patch: center_image
+       left: 440
+       top: 396
+       width: 2354
+       height: 786
+
+     - patch: bottom_right
+       left: 2640
+       top: 847
+       width: 632
+       height: 495
+
+     - patch: top_right
+       left: 2772
+       top: 49
+       width: 506
+       height: 485
+
+     - patch: usa_top_letters
+       left: 506
+       top: 77
+       width: 2288
+       height: 413
+
+   100b:
+     - patch: left_half
+       left: 40
+       top: 44
+       width: 1648
+       height: 1332
+
+     - patch: right_half
+       left: 1688
+       top: 44
+       width: 1576
+       height: 1332
+
+   100f: 
+     - patch: top_left
+       left: 52
+       top: 52
+       width: 984
+       height: 244
+
+     - patch: bottom_left
+       left: 20
+       top: 1024
+       width: 832
+       height: 364
+
+     - patch: one_hundred_text
+       left: 1752 
+       top: 1200 
+       width: 872
+       height: 132
+
+     - patch: portrait
+       left: 872
+       top: 188
+       width: 1176
+       height: 1172
+
+     - patch: top_right
+       left: 2352
+       top: 36
+       width: 924
+       height: 196
+
+     - patch: hologram
+       left: 2552
+       top: 952
+       width: 720
+       height: 248

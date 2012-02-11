@@ -1,0 +1,38 @@
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/calib3d/calib3d.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/features2d/features2d.hpp"
+#include "opencv2/video/tracking.hpp"
+
+using namespace cv;
+using namespace std;
+
+Ptr<FeatureDetector> getQueryDetector();
+Ptr<FeatureDetector> getTrainerDetector();
+Ptr<FeatureDetector> getTrainerDetector(int detection_points);
+Ptr<DescriptorExtractor> getExtractor();
+Ptr<DescriptorMatcher> getMatcher();
+
+struct RecognitionResult {
+  bool haswinner;
+  string winner;
+  int confidence;
+} ;
+
+void surfStyleMatching( Ptr<DescriptorMatcher>& descriptorMatcher,
+                     const Mat& queryDescriptors, const Mat& trainingDescriptors,
+                     vector<DMatch>& matches12 );
+
+
+void surfStyleMatching( Ptr<DescriptorMatcher>& descriptorMatcher,
+                     const Mat& queryDescriptors,
+                     vector<DMatch>& matches12 );
+
+Mat trainImage( const Mat& img1,
+                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<DescriptorMatcher>& descriptorMatcher );
+
+RecognitionResult recognize( const Mat& queryImg, bool drawOnImage, Mat* outputImage,
+                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<DescriptorMatcher>& descriptorMatcher, vector<string>& billMapping,
+		  bool debug_on, int* debug_matches_array );
