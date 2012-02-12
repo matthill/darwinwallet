@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tips_text">
+        <item >Hold your money the same orientation as the phone</item>
+        <item >Figure out the right distance</item>
+        <item >Experiment with flash and focus</item>
+        <item >If you don\'t deal regularly in US Dollar Bills, make sure to change your currency</item>
+
+    </string-array>
+</resources>

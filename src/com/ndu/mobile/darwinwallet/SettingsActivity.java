@@ -1,26 +1,32 @@
-//package com.ndu.mobile.darwinwallet;
-//
-//
-//
-//
-//import android.content.Context;
-//import android.content.Intent;
-//import android.content.SharedPreferences;
-//import android.content.SharedPreferences.Editor;
-//import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-//
-//import android.graphics.Color;
-//import android.os.Bundle;
-//import android.preference.CheckBoxPreference;
-//import android.preference.ListPreference;
-//import android.preference.PreferenceManager;
-//import android.preference.PreferenceActivity;
-//import android.preference.PreferenceCategory;
-//import android.preference.PreferenceScreen;
-//import android.webkit.WebSettings.RenderPriority;
-//
-//public class SettingsActivity extends PreferenceActivity
-//{
+package com.ndu.mobile.darwinwallet;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+
+
+public class SettingsActivity extends PreferenceActivity
+{
+	public final static String AUTO_FOCUS_PREF = "user_auto_focus"; 
+	public final static boolean AUTO_FOCUS_DEFAULT = false; 
+
+	public final static String TOUCH_TO_FOCUS_PREF = "user_touch_to_focus"; 
+	public final static boolean TOUCH_TO_FOCUS_DEFAULT = true; 
+	
+	public final static String CURRENCY_PREF = "user_currency"; 
+	public final static String CURRENCY_DEFAULT = "us"; 
+
+	public final static String FLASH_PREF = "flash_on"; 
+	public final static boolean FLASH_DEFAULT = true; 
+	
 //	public final static String TEXT_COLOR_PREF = "color_text"; 
 //	public final static String SENTENCE_COLOR_PREF = "color_sentence";
 //	public final static String SECTION_COLOR_PREF = "color_section";
@@ -74,58 +80,63 @@
 //	
 //	public static final int SETTINGS_RESPONSE_CODE = 3301;
 //	
-//	private SharedPreferences settings;
+	private SharedPreferences settings;
 //
 //	/** Called when the activity is first created. */
-//	@Override
-//	public void onCreate(Bundle savedInstanceState)
-//	{
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.settings);
-//
-//		setPreferenceScreen(createPreferenceHierarchy());
-//
-//		settings = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//
-//		Intent result = new Intent();
-//		setResult(SETTINGS_RESPONSE_CODE, result);
-//		
-//	} 
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.settings);
+
+		setPreferenceScreen(createPreferenceHierarchy());
+
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+		
+	} 
 //	
 //
 //	
 //	
-//	private PreferenceScreen createPreferenceHierarchy()
-//	{
-//		// Root
-//		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
-//
-//		// Inline preferences
-//		PreferenceCategory displayPrefCat = new PreferenceCategory(this);
-//		displayPrefCat.setTitle("Display Preferences");
-//		root.addPreference(displayPrefCat);
-//
-//		// Toggle preference
-////		CheckBoxPreference togglePref = new CheckBoxPreference(this);
-////		togglePref.setKey("toggle_preference");
-////		togglePref.setTitle("Title");
-////		togglePref.setSummary("Summary");
-////		colorPrefCat.addPreference(togglePref);
-////		
-////		SliderPreference bgPref = new SliderPreference(this);
-////		bgPref.setKey("bg_color");
-////		bgPref.setTitle("Title");
-////		bgPref.setSummary("Summary");
-////		colorPrefCat.addPreference(bgPref);
-//
-//
-//		CheckBoxPreference prefDisplayImages = new CheckBoxPreference(this);
-//		prefDisplayImages.setKey(DISPLAY_IMAGES_PREF);
-//		prefDisplayImages.setDefaultValue(DISPLAY_IMAGES_DEFAULT);
-//		prefDisplayImages.setTitle("Display Images");
-//		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
-//		displayPrefCat.addPreference(prefDisplayImages);
+	private PreferenceScreen createPreferenceHierarchy()
+	{
+		// Root
+		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
+
+		// Inline preferences
+		PreferenceCategory userPrefCat = new PreferenceCategory(this);
+		userPrefCat.setTitle("User Preferences");
+		root.addPreference(userPrefCat);
+
+		// Currency Preference
+		ListPreference prefCurrency = new ListPreference(this);
+		prefCurrency.setEntries(R.array.language_names);
+		prefCurrency.setEntryValues(R.array.language_codes);
+		prefCurrency.setDialogTitle("Please select a currency");
+		prefCurrency.setKey(CURRENCY_PREF);
+		prefCurrency.setTitle("Preferred Currency");
+//		fontSizePref.setSummary("Enlarge or shrink the size of the font");
+//		fontSizePref.setOnPreferenceChangeListener(this);
+		userPrefCat.addPreference(prefCurrency);
+		
+
+		// Touch to Focus preference
+		CheckBoxPreference prefTouchToFocus = new CheckBoxPreference(this);
+		prefTouchToFocus.setKey(TOUCH_TO_FOCUS_PREF);
+		prefTouchToFocus.setDefaultValue(TOUCH_TO_FOCUS_DEFAULT);
+		prefTouchToFocus.setTitle("Touch to Focus");
+		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
+		userPrefCat.addPreference(prefTouchToFocus);
+		
+		// Auto Focus preference
+		CheckBoxPreference prefAutoFocus = new CheckBoxPreference(this);
+		prefAutoFocus.setKey(AUTO_FOCUS_PREF);
+		prefAutoFocus.setDefaultValue(AUTO_FOCUS_DEFAULT);
+		prefAutoFocus.setTitle("Auto Focus");
+		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
+		userPrefCat.addPreference(prefAutoFocus);
 //		
 //		 
 //		// Dialog based preferences
@@ -279,8 +290,8 @@
 ////		voicePrefCat.addPreference(voicePitchPref);
 //		
 //
-//		return root;
-//	}
+		return root;
+	}
 //
 // 
 //
@@ -295,13 +306,42 @@
 //    	prefsEditor.commit();
 //
 //	}
-//	public static boolean getEyesFreeMode(Context context)
-//	{
-//    	// Retrieve the eyes free mode pref:
-//    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-//    	return appSharedPrefs.getBoolean(EYES_FREE_MODE_PREF, false);
-//   
-//	}
+	public static String getCurrency(Context context)
+	{
+    	// Retrieve the eyes free mode pref:
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	return appSharedPrefs.getString(CURRENCY_PREF, CURRENCY_DEFAULT);
+   
+	}
+
+	public static boolean getAutoFocus(Context context)
+	{
+    	// Retrieve the eyes free mode pref:
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	return appSharedPrefs.getBoolean(AUTO_FOCUS_PREF, AUTO_FOCUS_DEFAULT);
+	}
+
+	public static boolean getTouchToFocus(Context context)
+	{
+    	// Retrieve the eyes free mode pref:
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	return appSharedPrefs.getBoolean(TOUCH_TO_FOCUS_PREF, TOUCH_TO_FOCUS_DEFAULT);
+	}
+
+	public static boolean getFlash(Context context)
+	{
+    	// Retrieve the eyes free mode pref:
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	return appSharedPrefs.getBoolean(FLASH_PREF, FLASH_DEFAULT);
+	}
+	
+	public static void setFlash(Context context, boolean enabled)
+	{
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	Editor prefsEditor = appSharedPrefs.edit();
+    	prefsEditor.putBoolean(FLASH_PREF, enabled);
+    	prefsEditor.commit();
+	}
 //
 //	public static boolean isEyesFreeOptimized(Context context)
 //	{
@@ -404,5 +444,5 @@
 ////	}
 //
 //
-//
-//}
+
+}

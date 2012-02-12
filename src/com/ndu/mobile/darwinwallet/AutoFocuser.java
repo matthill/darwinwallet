@@ -8,13 +8,13 @@ public class AutoFocuser {
     private boolean 			mAutoFocusing;
     private long 				lastAutoFocus;
     
-    private boolean enabled = true;
+    private boolean enabled = false;
     private IAutoFocusEvent afcallback;
     
     public AutoFocuser(IAutoFocusEvent afcallback)
     {
     	this.afcallback = afcallback;
-    	lastAutoFocus = 0;
+    	lastAutoFocus = getCurTime();
     }
 
     public boolean needsAutoFocus()
@@ -47,6 +47,14 @@ public class AutoFocuser {
     public void disable()
     {
     	enabled = false;
+    }
+    public void enable()
+    {
+    	enabled = true;
+    }
+    public boolean isEnabled()
+    {
+    	return enabled;
     }
     
     public void autoFocusComplete()

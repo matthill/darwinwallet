@@ -67,6 +67,15 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
        }
        Camera.Parameters parameters = camera.getParameters();
        parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
+
+       //parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
+       parameters.setJpegQuality(90);
+       //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+       //parameters.setColorEffect(Parameters.EFFECT_MONO);
+       //parameters.setPreviewFormat(ImageFormat.NV21);
+       
+       //parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+       
        requestLayout();
 
        camera.setParameters(parameters);
@@ -187,14 +196,15 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
     	{ 
 	        Camera.Parameters parameters = mCamera.getParameters();
 	        parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-	        parameters.setJpegQuality(90);
+	        //parameters.setJpegQuality(90);
 	        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-	        parameters.setFocusMode(Camera.Parameters.FLASH_MODE_TORCH);
+	        //parameters.setPreviewFpsRange(1, 15);
+
 	        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
 	        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
 	        //recognizer.disableAutoFocus();
 	        
-	        //parameters.setPreviewFormat(ImageFormat.NV21);
+	        parameters.setPreviewFormat(ImageFormat.NV21);
 	        
 	        requestLayout();
 	

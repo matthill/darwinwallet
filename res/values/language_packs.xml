@@ -11,9 +11,16 @@
     <string-array name="language_names">
         <item >US Dollars</item>
         <item >British Pound Sterling</item>
-        <item >eu</item>
-        <item >ca</item>
-        <item >au</item>
+        <item >European Union Euros</item>
+        <item >Canadian Dollars</item>
+        <item >Australian Dollars</item>
     </string-array>
     
+    <string-array name="language_signs">
+        <item >$</item>
+        <item >£</item>
+        <item >€</item>
+        <item >$</item>
+        <item >$</item>
+    </string-array>
 </resources>

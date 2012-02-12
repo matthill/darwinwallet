@@ -57,6 +57,7 @@ extern "C" {
 		LOGD( "Started nvResetTrainedDatabase" );
 
 		training_complete = false;
+		descriptorMatcher = getMatcher();
 		trainImages.clear();
 		billMapping.clear();
 
@@ -132,10 +133,13 @@ extern "C" {
 
 
 
-			Mat myuv(height + height/2, width, CV_8UC1, (unsigned char *)_yuv);
-			//Mat mbgra(height, width, CV_8UC4, (unsigned char *)_bgra);
+			//Mat myuv(height + height/2, width, CV_8UC1, (unsigned char *)_yuv);
+			//Mat mbgra(height, width, CV_8UC4);
 			Mat mgray(height, width, CV_8UC1, (unsigned char *)_yuv);
 
+
+			//Mat myuv(width, 1, CV_8U, (unsigned char *)_yuv);
+			//Mat mgray = imdecode(myuv, 0);
 			//Please make attention about BGRA byte order
 			//ARGB stored in java as int array becomes BGRA at native level
 			//cvtColor(myuv, mbgra, CV_YUV420sp2BGR, 4);
@@ -149,11 +153,11 @@ extern "C" {
 
 			if (height < width)
 			{
-				divisor = (height / 240);
+				divisor = (((double) height) / 240);
 			}
 			else
 			{
-				divisor = (width / 240);
+				divisor = (((double) width) / 240);
 			}
 
 			if (divisor == 0)
@@ -176,6 +180,8 @@ extern "C" {
 			//surfStyleMatching( descriptorMatcher, descriptors, matches );
 
 			Mat* dummy;
+
+			//imwrite("/sdcard/wallet_debug.jpg", mgray_small );
 
 			bool debug_on = true;
 			int debug_matches[billMapping.size()];

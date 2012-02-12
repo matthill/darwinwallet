@@ -1,12 +1,15 @@
 package com.ndu.mobile.darwinwallet;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.res.AssetManager;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.os.AsyncTask;
@@ -18,6 +21,8 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	private Camera activeCamera = null;
     private AutoFocuser			mAutoFocuser;
 	
+    private boolean training_complete = false;
+    
 	private int width;
 	private int height;
 	
@@ -36,7 +41,6 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
         mAutoFocuser = new AutoFocuser(afcallback);
         nvInitialize();
         
-        nvResetTrainedDatabase(); 
 
 	}  
 	  
@@ -52,6 +56,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 		
         try
         {
+            nvResetTrainedDatabase(); 
         	trainImages(locality);
         	nvFinalizeTraining();
         	
@@ -70,8 +75,10 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 
     private void trainImages(String locality) throws Exception
     {
-
     	
+		mAutoFocuser.disable();
+    	
+		training_complete = false;
 
         Field[] fields = R.raw.class.getFields();
         for(int count=0; count < fields.length; count++){
@@ -97,6 +104,11 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
         	}
         	 
         }
+        
+        training_complete = true;
+        
+        if (SettingsActivity.getAutoFocus(context))
+        	mAutoFocuser.enable();
     } 
 	
 	
@@ -120,37 +132,51 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 
-		if (mAutoFocuser.needsAutoFocus())
-		{
-			startAutoFocus(camera);
-		}
-
-		if (mAutoFocuser.isAutoFocusing() == false)
+		//int test = camera.getParameters().getPreviewFormat();
+		
+		if ((mAutoFocuser.isAutoFocusing() == false) && (training_complete))
 		{
 			activeCamera = camera;
 			
+			buffer = data;
 			new RecognizeBillTask().execute();
+			
+			// Do an auto-focus here, since the next time we get data we'll have a nice focused image.
+			if (mAutoFocuser.needsAutoFocus())
+			{
+				startAutoFocus(camera);
+			}
 		}
 		else
 		{
-			camera.addCallbackBuffer(data);
+
+
+			camera.addCallbackBuffer(buffer);
 		}
 	} 
 	
 	public void startAutoFocus(Camera camera)
 	{
+		if (training_complete == false)
+			return;
+			
 		mAutoFocuser.autoFocusStart();
 		camera.autoFocus(this);
 	}
 	
-	public void disableAutoFocus()
+	public void setAutoFocus(boolean enabled)
 	{
-		mAutoFocuser.disable();
+		if (enabled)
+			mAutoFocuser.enable();
+		else
+			mAutoFocuser.disable();
 	}
 
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
 		mAutoFocuser.autoFocusComplete();
+		
+		//Log.d("Recognizer", camera.getParameters().getAuto)
 	}
 	
  
@@ -164,7 +190,14 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	    	 String response = "";
 	    	 if (buffer != null)
 	    	 {
+
+	    		
+	    		//writeToJpg();
+	    		 
+    			//response = nvRecognize(baos.size(), baos.size(), baos.toByteArray()  );
+    			
     			response = nvRecognize(width, height, buffer  );
+    			
 	    			
 	    	 }
 	    	 
@@ -175,6 +208,31 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	    	 return result;
 	     }
 
+	     private void writeToJpg()
+	     {
+    		 ByteArrayOutputStream baos = new ByteArrayOutputStream(width * height);
+    		 
+    		YuvImage tempImg = new YuvImage(buffer, ImageFormat.NV21, width, height, null);
+    		tempImg.compressToJpeg(new Rect(0, 0, width, height), 90, baos);
+    		OutputStream out;
+			try {
+				out = new FileOutputStream("/sdcard/wallet_in.jpg");
+	    		out.write(baos.toByteArray());
+	    		out.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			try {
+				baos.close();
+			} catch (IOException e) {
+			}
+	     }
+	     
 	     protected void onPostExecute(RecognitionResult result) {
 	         //mImageView.setImageBitmap(result);
 

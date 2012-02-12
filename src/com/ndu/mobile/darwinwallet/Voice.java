@@ -138,7 +138,7 @@ public class Voice implements OnUtteranceCompletedListener, OnInitListener
 		tts.setOnUtteranceCompletedListener(this);
 		activeText = "ignore";
 		if (tts.isSpeaking() == false)
-			tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+			tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     	
 	}
 	
