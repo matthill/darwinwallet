@@ -115,9 +115,9 @@ double diffclock(clock_t clock1,clock_t clock2)
 	return diffms;
 }
 
-void doIteration( const Mat& img1, IplImage* img2, 
+void doIteration( const Mat& img1, Mat img2, 
                   vector<KeyPoint>& keypoints1, const Mat& descriptors1,
-                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<ORB>& detector, 
                   Ptr<DescriptorMatcher>& descriptorMatcher )
 {
 
@@ -132,8 +132,10 @@ void doIteration( const Mat& img1, IplImage* img2,
 
     truebegin=begin=clock();
     cout << endl << "< Extracting keypoints from second image..." << endl;
+    cout << "< Computing descriptors for keypoints from second image..." << endl;
+    Mat descriptors2;
     vector<KeyPoint> keypoints2;
-    detector->detect( img2, keypoints2 );
+    detector->operator()( img2, cv::noArray(), keypoints2, descriptors2, false);
     end=clock();
 
     cout << keypoints2.size() << " points in :" << diffclock(begin, end) << "ms" << endl << ">" << endl;
@@ -144,12 +146,6 @@ void doIteration( const Mat& img1, IplImage* img2,
       return;
     }
     
-    begin=clock();
-    cout << "< Computing descriptors for keypoints from second image..." << endl;
-    Mat descriptors2;
-    descriptorExtractor->compute( img2, keypoints2, descriptors2 );
-    end=clock();
-    cout << ">completed in: " << diffclock(begin, end) << "ms" << endl;
 
 
     begin=clock();
@@ -234,23 +230,22 @@ int main(int argc, char** argv)
 
     cout << "< Creating detector, descriptor extractor and descriptor matcher ..." << endl;
     
-    Ptr<FeatureDetector> detector1 = getTrainerDetector();
-    Ptr<FeatureDetector> detector2 = getQueryDetector();
+    Ptr<ORB> detector1 = getTrainerDetector();
+    Ptr<ORB> detector2 = getQueryDetector();
 
-    Ptr<DescriptorExtractor> descriptorExtractor = getExtractor();
     Ptr<DescriptorMatcher> descriptorMatcher = getMatcher();
    
 
     
     cout << ">" << endl;
-    if( detector1.empty() || detector2.empty() || descriptorExtractor.empty() || descriptorMatcher.empty()  )
+    if( detector1.empty() || detector2.empty() || descriptorMatcher.empty()  )
     {
         cout << "Can not create detector or descriptor exstractor or descriptor matcher of given types" << endl;
         return -1;
     }
 		
     cout << "< Reading the images..." << endl;
-    Mat img1 = imread( "/home/mhill/projects/darwin_wallet/DarwinWallet/assets/ca/5b/full_pic.jpg" );
+    Mat img1 = imread( "/home/mhill/projects/darwin_wallet/DarwinWallet/res/raw/us1ffull_pic.jpg" );
     //Mat img1 = imread( "/tmp/20f.jpg" );
     
     //Mat img2;
@@ -267,14 +262,14 @@ int main(int argc, char** argv)
     }
 
     cout << endl << "< Extracting keypoints from first image..." << endl;
-    vector<KeyPoint> keypoints1;
-    detector1->detect( img1, keypoints1 );
-    cout << keypoints1.size() << " points" << endl << ">" << endl;
-
     cout << "< Computing descriptors for keypoints from first image..." << endl;
     Mat descriptors1;
-    descriptorExtractor->compute( img1, keypoints1, descriptors1 );
-    cout << ">" << endl;
+    vector<KeyPoint> keypoints1;
+    detector1->operator()(img1, cv::noArray(), keypoints1, descriptors1, false);
+    //detector1->detect( img1, keypoints1 );
+    cout << keypoints1.size() << " points" << endl << ">" << endl;
+
+
 
     namedWindow(winName, 1);
     RNG rng = theRNG();
@@ -296,13 +291,15 @@ int main(int argc, char** argv)
 	IplImage* img2 =  cvQueryFrame(cap);
 	//IplImage* img2 = cvCreateImage( cvSize(320,240), 8, 3 );
 
-	IplImage* externsrc = img2;
+	//IplImage* externsrc = img2;
+	Mat externsrc(img2);
+	
 	//IplImage* externsrc = cvCreateImage( cvSize(320+BORDER_SIZE*2,240+BORDER_SIZE*2), 8, 3 );
 	
 	//cvCopyMakeBorder( img2, externsrc, cvPoint(BORDER_SIZE, BORDER_SIZE), IPL_BORDER_CONSTANT, cvScalarAll(255));
 	
             doIteration( img1, externsrc, keypoints1, descriptors1,
-                         detector2, descriptorExtractor, descriptorMatcher );
+                         detector2, descriptorMatcher );
 	waitKey(2);
 
     }

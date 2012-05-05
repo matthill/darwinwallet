@@ -1,7 +1,6 @@
 package com.ndu.mobile.darwinwallet;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -15,17 +14,23 @@ import android.preference.PreferenceScreen;
 
 public class SettingsActivity extends PreferenceActivity
 {
-	public final static String AUTO_FOCUS_PREF = "user_auto_focus"; 
-	public final static boolean AUTO_FOCUS_DEFAULT = false; 
+//	public final static String AUTO_FOCUS_PREF = "user_auto_focus"; 
+//	public final static boolean AUTO_FOCUS_DEFAULT = false; 
 
-	public final static String TOUCH_TO_FOCUS_PREF = "user_touch_to_focus"; 
-	public final static boolean TOUCH_TO_FOCUS_DEFAULT = true; 
+//	public final static String TOUCH_TO_FOCUS_PREF = "user_touch_to_focus"; 
+//	public final static boolean TOUCH_TO_FOCUS_DEFAULT = true; 
 	
 	public final static String CURRENCY_PREF = "user_currency"; 
 	public final static String CURRENCY_DEFAULT = "us"; 
 
 	public final static String FLASH_PREF = "flash_on"; 
 	public final static boolean FLASH_DEFAULT = true; 
+
+	public final static String DOUBLE_CHECK_PREF = "double_check"; 
+	public final static boolean DOUBLE_CHECK_DEFAULT = false; 
+	
+	public final static String AUTO_FOCUS_PREF = "user_autofocus_mode";
+	public final static String AUTO_FOCUS_DEFAULT = String.valueOf(AutoFocusModes.FocusOnTouch.getVal()); 
 	
 //	public final static String TEXT_COLOR_PREF = "color_text"; 
 //	public final static String SENTENCE_COLOR_PREF = "color_sentence";
@@ -80,18 +85,19 @@ public class SettingsActivity extends PreferenceActivity
 //	
 //	public static final int SETTINGS_RESPONSE_CODE = 3301;
 //	
-	private SharedPreferences settings;
+//	private SharedPreferences settings;
 //
 //	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.settings);
 
 		setPreferenceScreen(createPreferenceHierarchy());
 
-		settings = PreferenceManager.getDefaultSharedPreferences(this);
+//		settings = PreferenceManager.getDefaultSharedPreferences(this);
 
 
 		
@@ -121,22 +127,49 @@ public class SettingsActivity extends PreferenceActivity
 //		fontSizePref.setOnPreferenceChangeListener(this);
 		userPrefCat.addPreference(prefCurrency);
 		
-
-		// Touch to Focus preference
-		CheckBoxPreference prefTouchToFocus = new CheckBoxPreference(this);
-		prefTouchToFocus.setKey(TOUCH_TO_FOCUS_PREF);
-		prefTouchToFocus.setDefaultValue(TOUCH_TO_FOCUS_DEFAULT);
-		prefTouchToFocus.setTitle("Touch to Focus");
-		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
-		userPrefCat.addPreference(prefTouchToFocus);
+		String[] focusNames = { "Auto-Focus Off", "Touch Screen to Focus", "Auto-focus On" };
+		String[] focusValues = { 
+				String.valueOf(AutoFocusModes.OFF.getVal()),
+				String.valueOf(AutoFocusModes.FocusOnTouch.getVal()),
+				String.valueOf(AutoFocusModes.ON.getVal()),
+		};
 		
-		// Auto Focus preference
-		CheckBoxPreference prefAutoFocus = new CheckBoxPreference(this);
+		// Currency Preference
+		ListPreference prefAutoFocus = new ListPreference(this);
+		prefAutoFocus.setEntries(focusNames);
+		prefAutoFocus.setEntryValues(focusValues);
+		prefAutoFocus.setDialogTitle("Please select a focus mode");
 		prefAutoFocus.setKey(AUTO_FOCUS_PREF);
-		prefAutoFocus.setDefaultValue(AUTO_FOCUS_DEFAULT);
-		prefAutoFocus.setTitle("Auto Focus");
-		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
+		prefAutoFocus.setTitle("Auto Focus Mode");
+//		fontSizePref.setSummary("Enlarge or shrink the size of the font");
+//		fontSizePref.setOnPreferenceChangeListener(this);
 		userPrefCat.addPreference(prefAutoFocus);
+		
+		
+//		// Touch to Focus preference
+//		CheckBoxPreference prefTouchToFocus = new CheckBoxPreference(this);
+//		prefTouchToFocus.setKey(TOUCH_TO_FOCUS_PREF);
+//		prefTouchToFocus.setDefaultValue(TOUCH_TO_FOCUS_DEFAULT);
+//		prefTouchToFocus.setTitle("Touch to Focus");
+//		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
+//		userPrefCat.addPreference(prefTouchToFocus);
+//		
+//		// Auto Focus preference
+//		CheckBoxPreference prefAutoFocus = new CheckBoxPreference(this);
+//		prefAutoFocus.setKey(AUTO_FOCUS_PREF);
+//		prefAutoFocus.setDefaultValue(AUTO_FOCUS_DEFAULT);
+//		prefAutoFocus.setTitle("Auto Focus");
+//		//togglePref.setSummary("Determines whether page numbers should be spoken while the book is reading");
+//		userPrefCat.addPreference(prefAutoFocus);
+		
+		
+		// Double check preference
+		CheckBoxPreference prefDoubleCheck = new CheckBoxPreference(this);
+		prefDoubleCheck.setKey(DOUBLE_CHECK_PREF);
+		prefDoubleCheck.setDefaultValue(DOUBLE_CHECK_DEFAULT);
+		prefDoubleCheck.setTitle("Higher Accuracy Scanning");
+		prefDoubleCheck.setSummary("Reduce the number of false positives at the expense of slower bill recognition.");
+		userPrefCat.addPreference(prefDoubleCheck);
 //		
 //		 
 //		// Dialog based preferences
@@ -314,19 +347,22 @@ public class SettingsActivity extends PreferenceActivity
    
 	}
 
-	public static boolean getAutoFocus(Context context)
+	public static AutoFocusModes getAutoFocusMode(Context context)
 	{
     	// Retrieve the eyes free mode pref:
     	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-    	return appSharedPrefs.getBoolean(AUTO_FOCUS_PREF, AUTO_FOCUS_DEFAULT);
+    	
+    	String value = appSharedPrefs.getString(AUTO_FOCUS_PREF, AUTO_FOCUS_DEFAULT);
+    	return AutoFocusModes.getMode(value);
+    	//return appSharedPrefs.getString(AUTO_FOCUS_PREF, AUTO_FOCUS_DEFAULT);
 	}
 
-	public static boolean getTouchToFocus(Context context)
-	{
-    	// Retrieve the eyes free mode pref:
-    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-    	return appSharedPrefs.getBoolean(TOUCH_TO_FOCUS_PREF, TOUCH_TO_FOCUS_DEFAULT);
-	}
+//	public static boolean getTouchToFocus(Context context)
+//	{
+//    	// Retrieve the eyes free mode pref:
+//    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+//    	return appSharedPrefs.getBoolean(TOUCH_TO_FOCUS_PREF, TOUCH_TO_FOCUS_DEFAULT);
+//	}
 
 	public static boolean getFlash(Context context)
 	{
@@ -342,6 +378,14 @@ public class SettingsActivity extends PreferenceActivity
     	prefsEditor.putBoolean(FLASH_PREF, enabled);
     	prefsEditor.commit();
 	}
+
+	public static boolean getDoubleCheck(Context context)
+	{
+    	// Retrieve the eyes free mode pref:
+    	SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+    	return appSharedPrefs.getBoolean(DOUBLE_CHECK_PREF, DOUBLE_CHECK_DEFAULT);
+	}
+	
 //
 //	public static boolean isEyesFreeOptimized(Context context)
 //	{

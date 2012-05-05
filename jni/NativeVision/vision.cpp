@@ -7,37 +7,31 @@ const float MAX_DISTANCE_TO_MATCH = 40.0f;
 
 
 // Setup the detector, extractor, and matcher
-ORB::CommonParams cp = ORB::CommonParams(1.2f, 5U, 10, 1, 2); 
+//ORB::CommonParams cp = ORB::CommonParams(1.2f, 5U, 10, 1, 2); 
 
 
 const int DEFAULT_QUERY_FEATURES = 250;
 const int DEFAULT_TRAINING_FEATURES = 250;
     
-Ptr<FeatureDetector> getQueryDetector()
+Ptr<ORB> getQueryDetector()
 {
-    Ptr<FeatureDetector> detector1(new OrbFeatureDetector(DEFAULT_QUERY_FEATURES, cp));
+    Ptr<ORB> detector1 = new ORB(DEFAULT_QUERY_FEATURES, 1.2f, 5U, 10, 1, 2);
     
     return detector1;
 }
 
-Ptr<FeatureDetector> getTrainerDetector()
+Ptr<ORB> getTrainerDetector()
 {
     return getTrainerDetector(DEFAULT_TRAINING_FEATURES);
 }
-Ptr<FeatureDetector> getTrainerDetector(int detection_points)
+Ptr<ORB> getTrainerDetector(int detection_points)
 {
-    Ptr<FeatureDetector> detector2(new OrbFeatureDetector(detection_points, cp));
+    Ptr<ORB> detector2 = new ORB(DEFAULT_QUERY_FEATURES, 1.2f, 5U, 10, 1, 2);
     
     return detector2;
 }
 
 
-Ptr<DescriptorExtractor> getExtractor()
-{
-    Ptr<DescriptorExtractor> descriptorExtractor = new OrbDescriptorExtractor(cp);
-    
-    return descriptorExtractor;
-}
 
 Ptr<DescriptorMatcher> getMatcher()
 {
@@ -144,18 +138,18 @@ void _surfStyleMatching(const Mat& queryDescriptors, vector<vector<DMatch> > mat
 }
 
 Mat trainImage( const Mat& img,
-                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<ORB>& detector, 
                   Ptr<DescriptorMatcher>& descriptorMatcher )
 {
 
-
-    vector<KeyPoint> keypoints;
-    detector->detect( img, keypoints );
-    //cout << keypoints1.size() << " points" << endl << ">" << endl;
-
     //cout << "< Computing descriptors for keypoints from first image..." << endl;
     Mat descriptors;
-    descriptorExtractor->compute( img, keypoints, descriptors );
+
+    vector<KeyPoint> keypoints;
+    detector->operator()( img, cv::noArray(), keypoints, descriptors, false );
+    //cout << keypoints1.size() << " points" << endl << ">" << endl;
+
+    
     //cout << ">" << endl;
     
     
@@ -169,7 +163,7 @@ Mat trainImage( const Mat& img,
 
 
 RecognitionResult recognize( const Mat& queryImg, bool drawOnImage, Mat* outputImage,
-                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<ORB>& detector, 
                   Ptr<DescriptorMatcher>& descriptorMatcher, vector<string>& billMapping, 
 		  bool debug_on, int* debug_matches_array
  			  )
@@ -178,8 +172,9 @@ RecognitionResult recognize( const Mat& queryImg, bool drawOnImage, Mat* outputI
   
     result.haswinner = false;
 
+    Mat queryDescriptors;
     vector<KeyPoint> queryKeypoints;
-    detector->detect( queryImg, queryKeypoints );
+    detector->operator()( queryImg, cv::noArray(), queryKeypoints, queryDescriptors, false );
 
 
     if (queryKeypoints.size() <= 5)
@@ -192,8 +187,6 @@ RecognitionResult recognize( const Mat& queryImg, bool drawOnImage, Mat* outputI
       return result;
     }
     
-    Mat queryDescriptors;
-    descriptorExtractor->compute( queryImg, queryKeypoints, queryDescriptors );
 
 
     vector<DMatch> filteredMatches;

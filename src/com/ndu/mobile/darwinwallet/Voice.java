@@ -1,11 +1,6 @@
 package com.ndu.mobile.darwinwallet;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 import android.app.Activity;
@@ -16,7 +11,7 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
+
 
 public class Voice implements OnUtteranceCompletedListener, OnInitListener
 {
@@ -24,7 +19,7 @@ public class Voice implements OnUtteranceCompletedListener, OnInitListener
 //	private static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 //	private static final int RAND_LENGTH = 16; 
 //	private static Random rnd = new Random();
-	private int MY_DATA_CHECK_CODE = 0;
+//	private int MY_DATA_CHECK_CODE = 0;
 
 	private TextToSpeech tts;
 	private String activeText = "";

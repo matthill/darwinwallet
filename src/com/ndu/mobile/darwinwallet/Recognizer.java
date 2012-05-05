@@ -1,15 +1,11 @@
 package com.ndu.mobile.darwinwallet;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
+
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.os.AsyncTask;
@@ -31,6 +27,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	private Context context;
 	private IRecognitionEvent callback = null;
 	
+	private List<RecognitionResult> previousMatches = new ArrayList<RecognitionResult>(5);
 	
 	public Recognizer(Context context, IRecognitionEvent callback, IAutoFocusEvent afcallback)
 	{
@@ -47,6 +44,10 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	public void close()
 	{
 		activeCamera = null;
+	}
+
+	public boolean isTrainingComplete() {
+		return training_complete;
 	}
 	
 	public boolean train(String locality)
@@ -66,7 +67,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
         } 
         catch (Exception e)
         {
-        	String temp = "";
+        	//String temp = "";
         }
         
         return false;
@@ -107,7 +108,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
         
         training_complete = true;
         
-        if (SettingsActivity.getAutoFocus(context))
+        if (SettingsActivity.getAutoFocusMode(context) == AutoFocusModes.ON)
         	mAutoFocuser.enable();
     } 
 	
@@ -133,7 +134,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	public void onPreviewFrame(byte[] data, Camera camera) {
 
 		//int test = camera.getParameters().getPreviewFormat();
-		
+
 		if ((mAutoFocuser.isAutoFocusing() == false) && (training_complete))
 		{
 			activeCamera = camera;
@@ -150,9 +151,9 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 		else
 		{
 
-
-			camera.addCallbackBuffer(buffer);
+			camera.addCallbackBuffer(data);
 		}
+
 	} 
 	
 	public void startAutoFocus(Camera camera)
@@ -160,8 +161,11 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 		if (training_complete == false)
 			return;
 			
-		mAutoFocuser.autoFocusStart();
-		camera.autoFocus(this);
+		if (mAutoFocuser.isAutoFocusing() == false)
+		{
+			mAutoFocuser.autoFocusStart();
+			camera.autoFocus(this);
+		}
 	}
 	
 	public void setAutoFocus(boolean enabled)
@@ -182,7 +186,8 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
  
 	private class RecognizeBillTask extends AsyncTask<Void, Void, RecognitionResult> {
 		
-	     protected RecognitionResult doInBackground(Void... asdf ) {
+	     @Override
+		protected RecognitionResult doInBackground(Void... asdf ) {
 	         //return loadImageFromNetwork(urls[0]);
 	    	 
 	    	 // Get buffer
@@ -208,6 +213,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 	    	 return result;
 	     }
 
+	     /*
 	     private void writeToJpg()
 	     {
     		 ByteArrayOutputStream baos = new ByteArrayOutputStream(width * height);
@@ -232,14 +238,60 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
 			} catch (IOException e) {
 			}
 	     }
+	     */
 	     
-	     protected void onPostExecute(RecognitionResult result) {
+	     @Override
+		protected void onPostExecute(RecognitionResult result) {
 	         //mImageView.setImageBitmap(result);
 
- 			Log.d("Recognizer",  "buffer size: " + buffer.length + " : " + result.bill_value + " : conf " + result.confidence);
+
+	    	 boolean doubleCheck = SettingsActivity.getDoubleCheck(context);
+	    	 Log.d("Recognizer",  "buffer size: " + buffer.length + " : " + result.bill_value + " : conf " + result.confidence);
  			
- 			if (callback != null)
- 				callback.recognitionEvent(result);
+			if (callback != null)
+			{
+				if (doubleCheck)
+				{
+					// If double check is enabled, do some fancy magic to clean up the results.
+					previousMatches.add(result);
+					if (previousMatches.size() > 4)
+						previousMatches.remove(0);
+					
+					if (result.match_found == false)
+					{
+						// if this is no match, send it on.
+						callback.recognitionEvent(result);
+					}
+					else if (result.confidence > 70)
+					{
+						// If this is a high confidence match, send it on... always
+						callback.recognitionEvent(result);
+					}
+					else
+					{
+						int doublecheck_matches = 0;
+						// Check the previous matches to see if there's at least one other
+						for (RecognitionResult r : previousMatches)
+						{
+							if (r.bill_value == result.bill_value)
+							{
+								doublecheck_matches++;
+							}
+						}
+						
+						if (doublecheck_matches > 1)
+							callback.recognitionEvent(result);
+						else
+							callback.recognitionEvent(new RecognitionResult(""));
+					}
+						
+				}
+				else
+				{
+					// If double check is not enabled, always send the result as-is
+					callback.recognitionEvent(result);
+				}
+			}
  			
 	    	 if (activeCamera != null)
 	    		 activeCamera.addCallbackBuffer(buffer);

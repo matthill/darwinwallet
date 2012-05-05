@@ -1,8 +1,10 @@
 package com.ndu.mobile.darwinwallet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -56,6 +58,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 
 	private static final int SOUND_FOCUS_COMPLETE 		= 1;
 	private static final int SOUND_RECOGNITION_EVENT 	= 2;
+	private static final int SOUND_CURRENCY_LOADED	 	= 3;
 
     private ProgressDialog dialog = null;
     
@@ -74,6 +77,26 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 
 
         setContentView(R.layout.main);
+
+        // TODO: CHECK BETA PERIOD EXPIRATION!!
+//        long expiration = 1334265866000l; // April 12, 2012
+//        long timeinmillis = Calendar.getInstance().getTimeInMillis();
+//        if (timeinmillis > expiration)
+//        {
+//        	// beta expired
+//        	final Activity context = this;
+//        	new AlertDialog.Builder(this)
+//            .setTitle("Beta period has expired.  Please purchase the app from the Market.")
+//            .setCancelable(false)
+//            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int whichButton) {
+//                	context.finish();
+//
+//                }
+//            })
+//           .create().show();
+//        }
+        
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Darwin Wallet Lock");
@@ -102,8 +125,10 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	
-    	doManualFocus();
+
+		// Is the preference set allowing the user to touch to Focus?
+		if (SettingsActivity.getAutoFocusMode(this) == AutoFocusModes.FocusOnTouch)
+			doManualFocus();
     	
     	return super.onTouchEvent(event);
     }
@@ -111,14 +136,12 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
     private void doManualFocus()
     {
     	// Do we have a camera obj and recognizer obj?
-    	if ((mCamera != null) && (recognizer != null))
+    	if ((mCamera != null) && (recognizer != null)) 
     	{   
     		// Is the dialog cleared out (indicating we're no longer "training"?
     		if ((dialog == null) || (dialog.isShowing() == false)) 
     		{
-    			// Is the preference set allowing the user to touch to Focus?
-    			if (SettingsActivity.getTouchToFocus(this))
-    				recognizer.startAutoFocus(mCamera);
+				recognizer.startAutoFocus(mCamera);
     		}
     	}
     }
@@ -147,6 +170,8 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 		soundPoolMap = new HashMap<Integer, Integer>();
 	    soundPoolMap.put(SOUND_FOCUS_COMPLETE, soundPool.load(this, R.raw.sound_focuscomplete, 1));
 	    soundPoolMap.put(SOUND_RECOGNITION_EVENT, soundPool.load(this, R.raw.sound_recognitionevent, 1));
+	    soundPoolMap.put(SOUND_CURRENCY_LOADED, soundPool.load(this, R.raw.sound_chaching, 1));
+	    
     }
 	private void playSound(int sound)
 	{
@@ -172,16 +197,20 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
         PixelFormat.getPixelFormatInfo(imgFormat, pxFormat);
         recognizer.allocateBuffer(width, height, pxFormat.bitsPerPixel);
 
-        mCamera.addCallbackBuffer(recognizer.getBuffer()); 
-        mCamera.setPreviewCallbackWithBuffer(recognizer);
+        
         
         if (SettingsActivity.getFlash(this))
         {
 	        Parameters params = mCamera.getParameters();
-	        params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-	        mCamera.setParameters(params);
+	        if ((params.getFlashMode() != null) && (params.getFlashMode().equals("") == false))
+	        {
+		        params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+		        mCamera.setParameters(params);
+	        }
         }
-        
+
+        mCamera.setPreviewCallbackWithBuffer(recognizer);
+        mCamera.addCallbackBuffer(recognizer.getBuffer()); 
     }
     
     @Override
@@ -190,52 +219,43 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 
         wl.acquire();
         
-
-        recognizer.setAutoFocus(SettingsActivity.getAutoFocus(this));
+        boolean doAutoFocus = SettingsActivity.getAutoFocusMode(this) == AutoFocusModes.ON;
+        recognizer.setAutoFocus(doAutoFocus);
         
         CurrencyInfo prefCurrency = new CurrencyInfo(this, SettingsActivity.getCurrency(this));
 
         if ((loadedCurrency == null) || (loadedCurrency.equals(prefCurrency) == false))
         	trainRecognizer(prefCurrency);
 
-        // Open the default i.e. the first rear facing camera.
-        mCamera = Camera.open();
+        try
+        {
+        	// Open the default i.e. the first rear facing camera.
+        	if (mCamera == null)
+        		mCamera = Camera.open();
 
+        }
+        catch (Exception e)
+        {
+        	// Failed to open camera, close the app.
+        	final Activity context = this;
+        	new AlertDialog.Builder(this)
+            .setTitle("Failed to open Camera")
+            .setCancelable(false)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+                	context.finish();
 
+                }
+            })
+           .create().show();
+        }
         
-//        if (mCamera == null)
-//        {
-//        	// Possible on some tablets, no back-facing camera
-//            int cameraCount = 0;
-//            //Camera cam = null;
-//            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-//            cameraCount = Camera.getNumberOfCameras();
-//            for ( int camIdx = 0; camIdx < cameraCount; camIdx++ ) {
-//                Camera.getCameraInfo( camIdx, cameraInfo );
-//
-//                try {
-//                	mCamera = Camera.open( camIdx );
-//                	if (mCamera != null)
-//                		break;
-//                } catch (RuntimeException e) {
-//                	String s = "test";
-//                } 
-//            } 
-//        } 
-        
-        
-//        if (mCamera != null)
-//        {
-//        	Parameters parameters = mCamera.getParameters();
-//	        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-//	        mCamera.setParameters(parameters);
-//        }
-        //Parameters params = mCamera.getParameters();
-        //mCamera.setParameters(params);
 
 
         //cameraCurrentlyLocked = defaultCameraId;
         mPreview.setCamera(mCamera); 
+        Log.d("BillRecognizerActivity", "RESUME!!");
 
     } 
 
@@ -247,18 +267,33 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
         // important to release it when the activity is paused.
         wl.release();
         if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
             mPreview.setCamera(null);
             mCamera.release();
             mCamera = null;
         }
+        Log.d("BillRecognizerActivity", "PAUSE!!");
     }
 
     @Override
     protected void onDestroy() {
     	super.onDestroy();
+
+    	if ((wl != null) && (wl.isHeld()))
+    		wl.release();
     	
     	if (voice != null)
     		voice.shutdown();
+    	
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            mPreview.setCamera(null);
+            mCamera.release();
+            mCamera = null;
+        }
+        Log.d("BillRecognizerActivity", "Destroy!!");
     }
 
 
@@ -314,7 +349,8 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 		}
 		else if (keyCode == KeyEvent.KEYCODE_CAMERA)
 		{
-			recognizer.startAutoFocus(mCamera);
+			if (SettingsActivity.getAutoFocusMode(this) == AutoFocusModes.FocusOnTouch)
+				recognizer.startAutoFocus(mCamera);
 			
 			return true;
 		}
@@ -328,7 +364,11 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 
 			Parameters parameters = mCamera.getParameters();
 
-			if (parameters.getFlashMode().equals(
+	        if ((parameters.getFlashMode() == null) || (parameters.getFlashMode().equals("")))
+	        {
+	        	// Do nothing, flash is not supported.
+	        }
+	        else if (parameters.getFlashMode().equals(
 					Camera.Parameters.FLASH_MODE_TORCH)) {
 				// parameters.setWhiteBalance(Parameters.WHITE_BALANCE_AUTO);
 				parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -405,6 +445,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 	            	CurrencyInfo currency = msg.getData().getParcelable("currency_code");
 	            	loadedCurrency = currency;
 	            	
+	            	playSound(SOUND_CURRENCY_LOADED);
 	            	voice.speakWithoutCallback("Loading complete");
 	            }
 	            else if (status_code == LOADING_FAIL)
@@ -413,8 +454,12 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 	            }
 	            
 	            
-	        	dialog.dismiss();
-	        	dialog = null;
+	            try {
+	                dialog.dismiss();
+	                dialog = null;
+	            } catch (Exception e) {
+	                // nothing
+	            }
             //}
         }
     };

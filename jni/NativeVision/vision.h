@@ -7,10 +7,10 @@
 using namespace cv;
 using namespace std;
 
-Ptr<FeatureDetector> getQueryDetector();
-Ptr<FeatureDetector> getTrainerDetector();
-Ptr<FeatureDetector> getTrainerDetector(int detection_points);
-Ptr<DescriptorExtractor> getExtractor();
+Ptr<ORB> getQueryDetector();
+Ptr<ORB> getTrainerDetector();
+Ptr<ORB> getTrainerDetector(int detection_points);
+
 Ptr<DescriptorMatcher> getMatcher();
 
 struct RecognitionResult {
@@ -29,10 +29,10 @@ void surfStyleMatching( Ptr<DescriptorMatcher>& descriptorMatcher,
                      vector<DMatch>& matches12 );
 
 Mat trainImage( const Mat& img1,
-                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<ORB>& detector, 
                   Ptr<DescriptorMatcher>& descriptorMatcher );
 
 RecognitionResult recognize( const Mat& queryImg, bool drawOnImage, Mat* outputImage,
-                  Ptr<FeatureDetector>& detector, Ptr<DescriptorExtractor>& descriptorExtractor,
+                  Ptr<ORB>& detector, 
                   Ptr<DescriptorMatcher>& descriptorMatcher, vector<string>& billMapping,
 		  bool debug_on, int* debug_matches_array );

@@ -65,10 +65,12 @@ public class CurrencyInfo implements Parcelable {
 	}
 
     public static final Parcelable.Creator<CurrencyInfo> CREATOR = new Parcelable.Creator<CurrencyInfo>() {
+	@Override
 	public CurrencyInfo createFromParcel(Parcel in) {
 	    return new CurrencyInfo(in);
 	}
 	
+	@Override
 	public CurrencyInfo[] newArray(int size) {
 	    return new CurrencyInfo[size];
 	}

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tips_text">
-        <item >Hold your money the same orientation as the phone</item>
-        <item >Figure out the right distance</item>
-        <item >Experiment with flash and focus</item>
-        <item >If you don\'t deal regularly in US Dollar Bills, make sure to change your currency</item>
+        <item>Darwin Wallet works by using the camera on the back of your phone to recognize bills.  For best results, lay your money on a flat surface and hold your phone steady above the bill.</item>
+        <item>Distance is important.  You should try to find the right distance to hold your phone away from the money.  Every phone is a little different, but it is usually between 6 and 12 inches.</item>
+        <item>Try to orient your money in the same direction as your phone.  This helps ensure that the camera can see most of the bill.</item>
+        <item>Experiment with flash and focus.  Different phones handle flash mode and focus mode differently.  Turning on auto-focus and flash mode on some phones greatly increases the accuracy, but could decrease the accuracy on others.  Try to experiment with different settings to find the best match for your phone.</item>
+        <item>If you do not deal regularly in US Dollar Bills, make sure to change your currency.  You can change your currency to pounds, Euros, Canadian dollars, or Australian dollars in the settings.</item>
+        <item>Did you notice the drum beats as the bills are being recognized?  That tells you that a bill has been recognized.  You should probably wait to hear two or three drum beats before you are sure that the bill is recognized correctly. </item>
+        <item>Special keys.  You can press the search button to toggle the flash on and off.  You can press the camera button or tap the screen to focus the camera.  </item>
 
+        <item>Beware of counterfeit currency.  Darwin Wallet is not a counterfeit detector.  Be sure to check the weight and feel of the paper before trusting the bill.  If someone printed an image of a dollar bill, that would absolutely fool Darwin Wallet.</item>
+        <item>Separate your money.  If Darwin Wallet sees many bills laid on top of each other, it tends to get confused and is less likely to report anything.  It is best to remove each bill from the field of view before trying another one.</item>
+        <item>Be patient when the app first loads.  After Darwin Wallet finishes loading your currency, it still takes about 20 seconds before it gets in the groove of recognizing your bills.  </item>
+        <item>If you have a fast phone, try toggling the high accuracy option in the settings.  This will take longer to recognize your money, but it will reduce the occurance of "false positives"</item>
     </string-array>
 </resources>

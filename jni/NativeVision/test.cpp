@@ -46,21 +46,15 @@ int main(int argc, char** argv)
   vector<KeyPoint> v;
 
 
-  //std::vector<char> buffvector((char*)imgBuffer, (char*)imgBuffer + sizeof((char*)imgBuffer));
-
-  //Mat grayImg = imdecode(buffvector, 0);
-
-  ORB::CommonParams cp = ORB::CommonParams(1.2f,12U,5,1);
-  OrbFeatureDetector detector(500, cp);
-  detector.detect(img, v);
+    
+//  ORB::ORB detector = new ORB(500, 1.2f, 5U, 10, 1, 2);
+//  detector.operator()(img, v);
 	
-  //std::vector<char> buffvector(bytearray, bytearray + sizeof(bytearray));
-		
-  //Mat img = imdecode(buffvector, 0);
 
-  drawKeypoints(img, v, img);
+
+//  drawKeypoints(img, v, img);
   
-  imshow( "test window", img );
+//  imshow( "test window", img );
 
 	
 	waitKey(10000);

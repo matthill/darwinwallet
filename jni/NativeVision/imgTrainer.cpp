@@ -29,11 +29,9 @@ int loadRecognitionSet(string name, Ptr<DescriptorMatcher> descriptorMatcher, ve
     // Setup the detector, extractor, and matcher
     //ORB::CommonParams cp = ORB::CommonParams(1.2f,12U,5,1); 
     
-    Ptr<FeatureDetector> detector = getTrainerDetector();
+    Ptr<ORB> detector = getTrainerDetector();
     //Ptr<FeatureDetector> detector2 = getQueryDetector();
 
-    Ptr<DescriptorExtractor> descriptorExtractor = getExtractor();
-    // = getMatcher();
 
 
     // Parse the yaml input file
@@ -75,7 +73,7 @@ int loadRecognitionSet(string name, Ptr<DescriptorMatcher> descriptorMatcher, ve
 	    
 	    
 	    out.str("");
-	    out << "/home/mhill/projects/darwin_wallet/DarwinWallet/assets/" << name << "/" << type << "/" << patch << ".jpg";
+	    out << "/home/mhill/projects/darwin_wallet/DarwinWallet/res/raw/" << name << type << "full_pic.jpg";
 	    img_path = out.str();
 	    
 	    std::cout << img_path << endl;
@@ -90,7 +88,7 @@ int loadRecognitionSet(string name, Ptr<DescriptorMatcher> descriptorMatcher, ve
 	    }
 	    
 	    billMapping.push_back(type);
-	    Mat trainData = trainImage(img1, detector, descriptorExtractor, descriptorMatcher);
+	    Mat trainData = trainImage(img1, detector, descriptorMatcher);
 	    trainImages.push_back(trainData);
 	  }
     

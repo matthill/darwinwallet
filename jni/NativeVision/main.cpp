@@ -44,15 +44,14 @@ int main(int argc, char** argv)
     //         int edge_threshold = 31, unsigned int first_level = DEFAULT_FIRST_LEVEL);
              
 
-    Ptr<FeatureDetector> detector = getQueryDetector();
+    Ptr<ORB> detector = getQueryDetector();
 
-    Ptr<DescriptorExtractor> descriptorExtractor = getExtractor();
     Ptr<DescriptorMatcher> descriptorMatcher = getMatcher();
 
 
     
     cout << ">" << endl;
-    if( detector.empty() || descriptorExtractor.empty() || descriptorMatcher.empty()  )
+    if( detector.empty() || descriptorMatcher.empty()  )
     {
         cout << "Can not create detector or descriptor exstractor or descriptor matcher of given types" << endl;
         return -1;
@@ -78,8 +77,8 @@ int main(int argc, char** argv)
     
     Mat img2;
     
-    initSpeaker();
-    speak_synchronously("Initification");
+    //initSpeaker();
+    //speak_synchronously("Initification");
     
     namedWindow(winName, 1);
  
@@ -110,12 +109,12 @@ int main(int argc, char** argv)
 	Mat drawImg;
 	
 	int debug_matches[billMapping.size()];
-	RecognitionResult result = recognize( externsrc, true, &drawImg, detector, descriptorExtractor, descriptorMatcher, billMapping, 
+	RecognitionResult result = recognize( externsrc, true, &drawImg, detector, descriptorMatcher, billMapping, 
 					      true, debug_matches);
 	
 	if (result.haswinner == true)
 	{
-	 speak(result.winner); 
+	 //speak(result.winner); 
 	}
 	
 	count++;

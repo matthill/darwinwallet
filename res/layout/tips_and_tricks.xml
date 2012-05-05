@@ -4,91 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:paddingLeft="5dp" android:paddingRight="5dp" android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/tips_tricks_icon" android:layout_gravity="center_horizontal"/>
-
-            
-            
-            <TableLayout
-                android:id="@+id/tblTipsTricks"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="1" android:shrinkColumns="*" android:stretchColumns="*">
-
-                <TableRow
-                    android:id="@+id/tableRow1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" android:focusable="true">
-
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingTop="5dp"
-                        android:text="Tips and Tricks"
-                        android:textSize="16sp"
-                        android:textStyle="bold" android:layout_weight="1"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:focusable="true">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tip #1" android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/TextView04"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="Copy your DAISY book to the Android device&apos;s SD card.  You can do this either by connecting your Android device to your computer with a USB cable, or by removing your SD card and inserting it into your computer." />
-
-                </TableRow>
-
-
-                <TableRow
-                    android:id="@+id/TableRow02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:focusable="true">
-
-                    <TextView
-                        android:id="@+id/TextView02"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Step 2" android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="Tap the button below to find and select the DAISY book.  Once selected, the book will be imported into your library." />
-
-                </TableRow>
-
-            </TableLayout>
-
-        </LinearLayout>
-    </ScrollView>
+    <ListView
+        android:id="@+id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+    </ListView>
 
 </LinearLayout>
