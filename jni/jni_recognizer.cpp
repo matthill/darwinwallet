@@ -27,8 +27,7 @@ double diffclock(clock_t clock1,clock_t clock2)
 	return diffms;
 }
 
-static Ptr<FeatureDetector> detector;
-static Ptr<DescriptorExtractor> descriptorExtractor;
+static Ptr<ORB> detector;
 static Ptr<DescriptorMatcher> descriptorMatcher;
 
 static vector<Mat> trainImages;
@@ -43,7 +42,6 @@ extern "C" {
 		LOGD( "Started nvInitialize" );
 
 		detector = getQueryDetector();
-		descriptorExtractor = getExtractor();
 		descriptorMatcher = getMatcher();
 
 		LOGD( "Finished nvInitialize" );
@@ -85,7 +83,7 @@ extern "C" {
 		//Mat img = imread("/sdcard/wallet/us/100b/full_pic.jpg", 0);
 
 		//LOGD( "nvTrainImage: 3" );
-	    Mat trainData = trainImage( img,  detector, descriptorExtractor, descriptorMatcher );
+	    Mat trainData = trainImage( img,  detector, descriptorMatcher );
 
 	    out << "nvTrainImage: " << _billpath << " (" << trainData.rows << " x " << trainData.cols << ")" << endl;
 		LOGD( out.str().c_str() );
@@ -185,7 +183,7 @@ extern "C" {
 
 			bool debug_on = true;
 			int debug_matches[billMapping.size()];
-			RecognitionResult result = recognize( mgray_small, false, dummy, detector, descriptorExtractor, descriptorMatcher, billMapping,
+			RecognitionResult result = recognize( mgray_small, false, dummy, detector, descriptorMatcher, billMapping,
 					debug_on, debug_matches);
 
 			end=clock();

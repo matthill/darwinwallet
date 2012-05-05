@@ -309,6 +309,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback {
     public native void nvTrainImage(String billname, String billpath);
     public native void nvFinalizeTraining();
     static {
+    	System.loadLibrary( "opencv_java" );
         System.loadLibrary("native_wallet");
     }
     

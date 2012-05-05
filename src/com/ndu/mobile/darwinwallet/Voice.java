@@ -22,7 +22,7 @@ public class Voice implements OnUtteranceCompletedListener, OnInitListener
 //	private int MY_DATA_CHECK_CODE = 0;
 
 	private TextToSpeech tts;
-	private String activeText = "";
+	private String activeText = ""; 
 	//private boolean paused = false;
 	private boolean shutdown = false;
 	
@@ -38,7 +38,7 @@ public class Voice implements OnUtteranceCompletedListener, OnInitListener
 		this.context = context;
 
         tts = new TextToSpeech(context, this);
-		
+		 
 
 		       
 

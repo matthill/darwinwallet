@@ -62,7 +62,7 @@ int main(int argc, char** argv)
     
     vector<string> billMapping;
     
-    int success = loadRecognitionSet("ca", descriptorMatcher, billMapping);
+    int success = loadRecognitionSet("us", descriptorMatcher, billMapping);
     
     for (int i = 0; i < billMapping.size(); i++)
     {
@@ -102,7 +102,8 @@ int main(int argc, char** argv)
 	    img2->depth,img2->nChannels);
 	cvResize(img2, mgray_small);
 
-	IplImage* externsrc = mgray_small;
+	//IplImage* externsrc = mgray_small;
+	Mat externsrc(mgray_small);
 	//IplImage* externsrc = cvCreateImage( cvSize(320+BORDER_SIZE*2,240+BORDER_SIZE*2), 8, 3 );
 	//cvCopyMakeBorder( img2, externsrc, cvPoint(BORDER_SIZE, BORDER_SIZE), IPL_BORDER_CONSTANT, CV_RGB(185, 186, 72));
 	

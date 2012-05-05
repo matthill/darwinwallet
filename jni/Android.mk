@@ -6,11 +6,11 @@ include $(CLEAR_VARS)
 
 OPENCV_CAMERA_MODULES := off
 #OPENCV_MK_PATH:=/home/mhill/projects/darwin_wallet/opencv/OpenCV-2.3.1/share/OpenCV/OpenCV.mk
-OPENCV_MK_PATH:=/home/mhill/projects/darwin_wallet/OpenCV-2.3.2BetaAndroid/android/build/OpenCV.mk
+OPENCV_MK_PATH:=/home/mhill/projects/darwin_wallet/OpenCV-2.4.0Android/share/OpenCV/OpenCV.mk
 
 include $(OPENCV_MK_PATH)
  
-#Profiler
+#Profiler 
 #-include android-ndk-profiler.mk
 
 #include ../includeOpenCV.mk
