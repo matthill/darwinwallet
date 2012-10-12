@@ -21,7 +21,7 @@ public class Voice implements OnUtteranceCompletedListener, OnInitListener
 //	private static Random rnd = new Random();
 //	private int MY_DATA_CHECK_CODE = 0;
 
-	private TextToSpeech tts;
+	private TextToSpeech tts; 
 	private String activeText = ""; 
 	//private boolean paused = false;
 	private boolean shutdown = false;

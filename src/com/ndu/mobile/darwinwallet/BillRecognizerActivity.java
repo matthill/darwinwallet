@@ -102,7 +102,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Darwin Wallet Lock");
         
         loadSounds();
-        recognizer = new Recognizer(this, this, this); 
+        recognizer = new Recognizer(this, this, this);  
         
 
         // Create a RelativeLayout container that will hold a SurfaceView,
@@ -115,7 +115,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
         voice = new Voice(this);
         loadSounds();
         
-        
+         
         // Tells android to always use the volume keys for adjusting media volume (not ringer)
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
