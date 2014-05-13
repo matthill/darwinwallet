@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="loading">Загружаюсь...</string>
+    <string name="loading_currency">Загружаю %s...</string>
+    <string name="loading_complete">Загрузка завершена</string>
+    <string name="loading_failed">Неудалось загрузиться.</string>
+    <string name="scanning">Высматриваю деньги</string>
+    <string name="focusing">Фокусировка...</string>
+    <string name="failed_open_camera">Неудалось открыть Камеру</string>
+    <string name="flash_off">Вспышка отключена</string>
+    <string name="flash_on">Вспышка включена</string>
+    <string name="tts_not_enabled">На вашем Android устройстве не включен Text-to-Speech. Чтобы текст произносился речевым синтезатором, вам необходимо включить TTS в Настройках. Вы хотите перейти в эти настройки?</string>
+    <string name="android_settings">Настройки Android</string>
+
+    <string name="settings_label">Darwin Wallet - Настройки</string>
+    <string name="pref_title">Пользовательские настройки</string>
+    <string name="pref_currency">Ваша валюта</string>
+    <string name="pref_currency_dialog">Пожалуйста, выберите Вашу валюту</string>
+    <string name="pref_focus_title">Настройка фокусировки камеры</string>
+    <string-array name="pref_focus_names">
+        <item>Автофокус выключен</item>
+        <item>Фокусировка включается касанием дисплея</item>
+        <item>Автофокус включен</item>
+    </string-array>
+    <string name="pref_focus_dialog">Пожалуйста, выберите режим фокусировки камеры</string>
+    <string name="pref_double_check_title">Повышенная точность распознавания</string>
+    <string name="pref_double_check_summary">Уменьшите число возможных ошибок ценой более медленного распознавания купюр.</string>
+
+    <string name="tips_and_tricks_label">Darwin Wallet - Полезные советы</string>
+    <string name="tip_1">Совет №1</string>
+    <string name="tip_here">Совет идет сюда...</string>
+    <string name="tip_n">Совет №%d</string>
+
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_toggle_light">Включить/выключить вспышку</string>
+    <string name="menu_focus_camera">Фокусировка камеры</string>
+    <string name="menu_tips_and_tricks">Полезные советы</string>
+
+</resources>

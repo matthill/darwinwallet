@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ndu.mobile.darwinwallet"
-    android:versionCode="4"
-    android:versionName="1.03" >
+    android:versionCode="5"
+    android:versionName="2.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk
+        android:minSdkVersion="8" />
     <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -36,17 +37,14 @@
         
         
         <activity
-            android:label="Darwin Wallet Settings"
+            android:label="@string/settings_label"
             android:name="com.ndu.mobile.darwinwallet.SettingsActivity" android:screenOrientation="landscape">
         </activity>
         
         <activity
-            android:label="Darwin Wallet Tips and Tricks"
+            android:label="@string/tips_and_tricks_label"
             android:name="com.ndu.mobile.darwinwallet.TipsnTricksActivity" android:screenOrientation="landscape">
         </activity>
     </application>
 
 </manifest>
-
-
-    

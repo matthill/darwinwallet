@@ -35,4 +35,5 @@ public class RecognitionResult
 			confidence = Integer.parseInt(splits[1]);
 		}
 	}
+	
 }

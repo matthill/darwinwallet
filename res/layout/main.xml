@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-
     <FrameLayout
         android:id="@+id/frmPreview"
         android:layout_width="fill_parent"
@@ -19,7 +18,8 @@
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:text="Loading..."
+        android:text="@string/loading"
         android:textColor="#ff2222"
         android:textSize="24sp" />
+
 </FrameLayout>

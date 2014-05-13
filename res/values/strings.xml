@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, DarwinWalletActivity!</string>
-    <string name="app_name">Darwin Wallet</string>
+    <string name="app_name" translatable="false">Darwin Wallet</string>
+
+    <string name="loading">Loading...</string>
+    <string name="loading_currency">Loading %s...</string>
+    <string name="loading_complete">Loading complete.</string>
+    <string name="loading_failed">Loading failed.</string>
+    <string name="scanning">Scanning</string>
+    <string name="focusing">Focusing...</string>
+    <string name="failed_open_camera">Failed to open Camera</string>
+    <string name="flash_off">Flash off</string>
+    <string name="flash_on">Flash on</string>
+    <string name="tts_not_enabled">Your Android device does not have Text-to-Speech enabled.  You must enable Text-to-Speech in your Android settings in order to play text books. Do you wish to go to your Android settings now?</string>
+    <string name="android_settings">Android Settings</string>
+
+    <string name="settings_label">Darwin Wallet Settings</string>
+    <string name="pref_title">User Preferences</string>
+    <string name="pref_currency">Preferred Currency</string>
+    <string name="pref_currency_dialog">Please select a currency</string>
+    <string name="pref_focus_title">Auto Focus Mode</string>
+    <string-array name="pref_focus_names">
+        <item>Auto-Focus Off</item>
+        <item>Touch Screen to Focus</item>
+        <item>Auto-focus On</item>
+    </string-array>
+    <string name="pref_focus_dialog">Please select a focus mode</string>
+    <string name="pref_double_check_title">Higher Accuracy Scanning</string>
+    <string name="pref_double_check_summary">Reduce the number of false positives at the expense of slower bill recognition.</string>
+
+    <string name="tips_and_tricks_label">Darwin Wallet Tips and Tricks</string>
+    <string name="tip_1">Tip #1</string>
+    <string name="tip_here">Tip goes here</string>
+    <string name="tip_n">Tip #%d</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_toggle_light">Toggle Light</string>
+    <string name="menu_focus_camera">Focus Camera</string>
+    <string name="menu_tips_and_tricks">Tips and Tricks</string>
 
 </resources>
