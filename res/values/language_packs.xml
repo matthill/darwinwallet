@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="language_codes">
+
+    <string-array name="language_codes" translatable="false">
         <item >us</item>
         <item >uk</item>
         <item >eu</item>
         <item >ca</item>
         <item >au</item>
+        <item >by</item>
     </string-array>
     
     <string-array name="language_names">
-        <item >US Dollars</item>
-        <item >British Pound Sterling</item>
-        <item >European Union Euros</item>
-        <item >Canadian Dollars</item>
-        <item >Australian Dollars</item>
+        <item>US Dollars</item>
+        <item>British Pound Sterling</item>
+        <item>European Union Euros</item>
+        <item>Canadian Dollars</item>
+        <item>Australian Dollars</item>
+        <item>Byelorussian Rubles</item>
     </string-array>
     
     <string-array name="language_signs">
@@ -22,5 +25,9 @@
         <item >€</item>
         <item >$</item>
         <item >$</item>
+        <item >&#160;byelorussian&#160;rubles&#160;</item>
     </string-array>
+
+    <bool name="sign_before_value">true</bool>
+
 </resources>
