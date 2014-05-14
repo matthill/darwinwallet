@@ -3,6 +3,8 @@
 
     <string name="app_name" translatable="false">Darwin Wallet</string>
 
+    <string name="front">front</string>
+    <string name="back">back</string>
     <string name="loading">Loading...</string>
     <string name="loading_currency">Loading %s...</string>
     <string name="loading_complete">Loading complete.</string>

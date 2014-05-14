@@ -54,7 +54,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 	private static final int SOUND_RECOGNITION_EVENT 	= 2;
 	private static final int SOUND_CURRENCY_LOADED	 	= 3;
 	
-	private ProgressDialog dialog = null;
+	private ProgressDialog dialog = null; 
 	private TextView lblOutput;
 	
 	private CurrencyInfo loadedCurrency = null;
@@ -242,7 +242,7 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 		//Log.d("BillRecognizerActivity", "Destroy!!");
 	}
 	
-	private int miss_count = 0;
+	private int miss_count = 0; 
 	@Override
 	public void recognitionEvent(RecognitionResult result)
 	{
@@ -251,6 +251,11 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 		if (result.match_found)
 		{
 			output = getResources().getBoolean(R.bool.sign_before_value) ? loadedCurrency.getSymbol() + result.bill_value : result.bill_value + loadedCurrency.getSymbol();
+			if (result.front == true)
+				output = output + " " + getString(R.string.front);
+			else
+				output = output + " " + getString(R.string.back);
+			
 			lblOutput.setTextColor(Color.GREEN);
 			lblOutput.setText(output);
 			voice.speakWithoutCallback(output);
