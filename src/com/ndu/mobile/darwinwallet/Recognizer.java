@@ -223,10 +223,10 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback
 						
 						if (doublecheck_matches > 1) callback.recognitionEvent(result);
 						else callback.recognitionEvent(new RecognitionResult(""));
-					}
+					} 
 					
 				}
-				else
+				else   
 				{
 					// If double check is not enabled, always send the result as-is
 					callback.recognitionEvent(result);
@@ -234,7 +234,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback
 			}
 			
 			if (activeCamera != null) activeCamera.addCallbackBuffer(buffer);
-		}
+		} 
 	}
 	
 	public native String nvRecognize(int width, int height, byte yuv[]);
@@ -245,7 +245,7 @@ public class Recognizer implements Camera.PreviewCallback, AutoFocusCallback
 	public native void nvFinalizeTraining();
 	static
 	{
-		System.loadLibrary( "opencv_java" );
+		//System.loadLibrary( "opencv_java" );
 		System.loadLibrary("native_wallet");
 	}
 	

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/home/mhill/apps/android-ndk-r8/ndk-build
+/home/mhill/apps/android-ndk/ndk-build
