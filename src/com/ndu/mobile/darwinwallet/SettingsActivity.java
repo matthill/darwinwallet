@@ -23,7 +23,7 @@ public class SettingsActivity extends PreferenceActivity
 	public final static boolean DOUBLE_CHECK_DEFAULT = false;
 	
 	public final static String AUTO_FOCUS_PREF_KEY = "user_autofocus_mode";
-	public final static String AUTO_FOCUS_DEFAULT = String.valueOf(AutoFocusModes.FocusOnTouch.getVal());
+	public final static String AUTO_FOCUS_DEFAULT = String.valueOf(AutoFocusModes.ON.getVal());
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
