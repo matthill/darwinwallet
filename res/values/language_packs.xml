@@ -31,9 +31,9 @@
         <item >€</item>
         <item >$</item>
         <item >$</item>
-        <item >ლ</item>
-        <item >ukrainian hryvnias;</item>
-        <item >&#8381;</item>
+        <item >&#160;georgian&#160;laris&#160;</item>
+        <item >&#160;ukrainian&#160;hryvnias&#160;</item>
+        <item >&#160;russian&#160;rubles&#160;</item>
         <item >&#160;byelorussian&#160;rubles&#160;</item>
     </string-array>
 

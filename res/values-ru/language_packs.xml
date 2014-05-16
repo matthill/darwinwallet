@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string-array name="language_names">
@@ -7,6 +7,9 @@
         <item>Евро</item>
         <item>Канадские доллары</item>
         <item>Австралийские доллары</item>
+        <item>Грузинские лари</item>
+        <item>Украинские гривны</item>
+        <item>Русские рубли</item>
         <item>Белорусские рубли</item>
     </string-array>
     
@@ -16,6 +19,9 @@
         <item >€</item>
         <item >$</item>
         <item >$</item>
+        <item >&#160;грузинских&#160;лари&#160;</item>
+        <item >&#160;украинских&#160;гривен&#160;</item>
+        <item >&#160;русских&#160;рублей&#160;</item>
         <item >&#160;белорусских&#160;рублей&#160;</item>
     </string-array>
 
