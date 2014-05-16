@@ -8,6 +8,7 @@
         <item >ca</item>
         <item >au</item>
         <item >ka</item>
+        <item >ua</item>
         <item >ru</item>
         <item >by</item>
     </string-array>
@@ -19,6 +20,7 @@
         <item>Canadian Dollars</item>
         <item>Australian Dollars</item>
         <item>Georgian Laris</item>
+        <item>Ukrainian hryvnias</item>
         <item>Russian Rubles</item>
         <item>Byelorussian Rubles</item>
     </string-array>
@@ -30,6 +32,7 @@
         <item >$</item>
         <item >$</item>
         <item >ლ</item>
+        <item >ukrainian hryvnias;</item>
         <item >&#8381;</item>
         <item >&#160;byelorussian&#160;rubles&#160;</item>
     </string-array>
