@@ -250,15 +250,31 @@ public class BillRecognizerActivity extends Activity implements IRecognitionEven
 		
 		if (result.match_found)
 		{
-			output = getResources().getBoolean(R.bool.sign_before_value) ? loadedCurrency.getSymbol() + result.bill_value : result.bill_value + loadedCurrency.getSymbol();
-			if (result.front == true)
-				output = output + " " + getString(R.string.front);
+			String speechOutput = String.valueOf(result.bill_value);
+			
+			if (getResources().getBoolean(R.bool.sign_before_value))
+			{
+				output = loadedCurrency.getSymbol() + result.bill_value;
+			}
 			else
+			{
+				output = result.bill_value + loadedCurrency.getSymbol();
+			}
+			
+			if (result.front == true)
+			{
+				output = output + " " + getString(R.string.front);
+				speechOutput = speechOutput + " " + getString(R.string.front);
+			}
+			else
+			{
 				output = output + " " + getString(R.string.back);
+				speechOutput = speechOutput + " " + getString(R.string.back);
+			}
 			
 			lblOutput.setTextColor(Color.GREEN);
 			lblOutput.setText(output);
-			voice.speakWithoutCallback(output);
+			voice.speakWithoutCallback(speechOutput);
 			playSound(SOUND_RECOGNITION_EVENT);
 		}
 		else
